@@ -6,6 +6,7 @@
         "namespace": "default",
         "creationTimestamp": null,
         "labels": {
+            "app.kubernetes.io/instance": "seldon-gitops-default",
             "fluentd": "true"
         }
     },
@@ -71,40 +72,7 @@
                     "version": "default"
                 },
                 "svcOrchSpec": {},
-                "traffic": 90
-            },
-            {
-                "name": "canary",
-                "graph": {
-                    "name": "testcanary-container",
-                    "implementation": "XGBOOST_SERVER",
-                    "modelUri": "gs://seldon-models/xgboost/iris",
-                    "logger": {
-                        "mode": "all"
-                    }
-                },
-                "componentSpecs": [
-                    {
-                        "metadata": {
-                            "creationTimestamp": "2021-01-13T14:39:10Z"
-                        },
-                        "spec": {
-                            "containers": [
-                                {
-                                    "name": "testcanary-container",
-                                    "resources": {}
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "annotations": {
-                    "seldon.io/canary": "true"
-                },
-                "engineResources": {},
-                "svcOrchSpec": {},
-                "traffic": 10
+                "traffic": 100
             }
         ],
         "annotations": {
