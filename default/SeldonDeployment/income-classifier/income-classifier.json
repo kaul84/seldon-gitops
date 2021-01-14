@@ -1,0 +1,74 @@
+{
+    "kind": "SeldonDeployment",
+    "apiVersion": "machinelearning.seldon.io/v1alpha2",
+    "metadata": {
+        "name": "income-classifier",
+        "namespace": "default",
+        "creationTimestamp": null,
+        "labels": {
+            "fluentd": "true"
+        }
+    },
+    "spec": {
+        "name": "income-classifier",
+        "predictors": [
+            {
+                "name": "default",
+                "graph": {
+                    "name": "income-classifier-container",
+                    "implementation": "SKLEARN_SERVER",
+                    "modelUri": "gs://seldon-models/sklearn/income/model-0.23.2",
+                    "logger": {
+                        "mode": "all"
+                    }
+                },
+                "componentSpecs": [
+                    {
+                        "metadata": {
+                            "creationTimestamp": "2021-01-14T16:19:43Z"
+                        },
+                        "spec": {
+                            "containers": [
+                                {
+                                    "name": "income-classifier-container",
+                                    "resources": {
+                                        "limits": {
+                                            "cpu": "1",
+                                            "memory": "1Gi"
+                                        },
+                                        "requests": {
+                                            "cpu": "1",
+                                            "memory": "1Gi"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "hpaSpec": {
+                            "minReplicas": 1,
+                            "maxReplicas": 2,
+                            "metrics": [
+                                {
+                                    "type": "Resource",
+                                    "resource": {
+                                        "name": "cpu",
+                                        "targetAverageUtilization": 10
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "engineResources": {},
+                "svcOrchSpec": {},
+                "traffic": 100
+            }
+        ],
+        "annotations": {
+            "seldon.io/engine-seldon-log-messages-externally": "true"
+        },
+        "protocol": "seldon"
+    },
+    "status": {}
+}
